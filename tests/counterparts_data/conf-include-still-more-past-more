@@ -1,0 +1,9 @@
+# -*- mode: conf; -*-
+# Cannot have paths 
+[COUNTERPART_MAP]
+
+# should dominate here, and also override DEFAULT in
+# conf-include-still-more:
+src = source
+
+paths: %(src)s/bash/00_std_paths

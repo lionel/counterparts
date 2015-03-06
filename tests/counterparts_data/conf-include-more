@@ -1,0 +1,8 @@
+# -*- mode: conf; -*-
+# map bashlib back to the source
+[DEFAULT]
+src = %(home)s/src/HummelAbode/src
+[COUNTERPART_MAP]
+lib/bashlib: %(src)s/bashlib
+[INCLUDE]
+paths = conf-2-with-include

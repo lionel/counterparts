@@ -1,0 +1,6 @@
+# -*- mode: conf  -*-
+[COUNTERPART_MAP]
+conf-logging = .counterc
+
+[INCLUDE]
+paths = ../../conf-logging

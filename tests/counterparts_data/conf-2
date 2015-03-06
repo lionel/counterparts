@@ -1,0 +1,5 @@
+# -*- mode: conf; -*-
+[COUNTERPART_MAP]
+bashlib/bashlib: %(home)s/lib/bashlib
+bashlib/lib: %(home)s/lib/bash
+bashlib/lib_local: %(home)s/lib/bash_local

@@ -1,0 +1,11 @@
+# -*- mode: conf; -*-
+# map bashlib back to the source
+[DEFAULT]
+src = %(home)s/src/HummelAbode/src
+[COUNTERPART_MAP]
+lib/bash: %(src)s/bashlib/lib
+lib/bash_local: %(src)s/bashlib/lib_local/%(hostname)s
+[INCLUDE]
+paths = conf-hostname
+      conf-null
+distractor = True

@@ -1,0 +1,21 @@
+# -*- mode: conf; -*-
+[DEFAULT]
+lisp_dir = %(home)s/emacs/lisp
+prepend_path = %(lisp_dir)s
+other_prepend_path = %(prepend_path)s/other
+other_lisp_dir = %(home)s/other
+
+[COUNTERPART_MAP]
+.emacs = %(home)s/.emacs
+lion-emacs-init.el = %(home)s/.emacs
+.counterc = %(home)s/src/counterparts/.counterc
+lion-whence.el = %(lisp_dir)s/whence.el
+ldh-math.el = %(other_lisp_dir)s/ldh-math.el
+
+# In Python2, the first appearance is superceded by the second; in
+# Python3, config_parser raises a DuplicateOptionError:
+lion-unison.el = %(other)s/lion-unison.el
+lion-unison.el = %(other_prepend_path)s/lion-unison.el
+
+[COUNTERPART_DIR]
+prepend_path = %(other_lisp_dir)s

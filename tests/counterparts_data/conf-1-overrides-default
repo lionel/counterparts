@@ -1,0 +1,7 @@
+# -*- mode: conf; -*-
+[DEFAULT]
+counterpart: counterpart.py
+from_default: %(counterpart)s
+[COUNTERPART_MAP]
+counterpart: counterparts.py
+from_counterparts: %(counterpart)s

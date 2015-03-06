@@ -1,0 +1,3 @@
+# -*- mode: conf  -*-
+[INCLUDE]
+paths = conf-recursive

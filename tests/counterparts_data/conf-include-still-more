@@ -1,0 +1,15 @@
+# -*- mode: conf; -*-
+# 
+[DEFAULT]
+src = %(home)s/src/bashlib
+source = see_included_file
+
+[COUNTERPART_MAP]
+lib/bashpaths: %(src)s/bashpaths
+
+# Should be the paths set one level down in
+# conf-include-still-more-past-more:
+paths_ref = %(paths)s
+
+[INCLUDE]
+paths = conf-include-still-more-past-more

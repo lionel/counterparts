@@ -1,0 +1,8 @@
+# -*- mode: conf; -*-
+# map bashlib back to the source
+[COUNTERPART_MAP]
+bashlib_src = %(home)s/src/HummelAbode/src/bashlib
+hostname = test-host.local
+lib/bashlib: %(bashlib_src)s/bashlib
+lib/bash: %(bashlib_src)s/bashlib/lib
+lib/bash_local: %(bashlib_src)s/lib_local/%(hostname)s
