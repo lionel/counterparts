@@ -390,6 +390,9 @@ def main(argv=sys.argv):
                         help="Display all config mappings.")
     parser.add_argument("-n", "--no-newline", action="store_true",
                         help="Print output without a trailing newline.")
+    parser.add_argument("-s", "--section", default=None,
+                        metavar="SECTION",
+                        help=("Limit to looking only in the named section."))
     parser.add_argument("-S", "--list-sections", action="store_true",
                         help="List all of the sections in this configuration.")
     parser.add_argument("-V", "--version", action="version",
@@ -400,6 +403,8 @@ def main(argv=sys.argv):
     options = parser.parse_args()
     if options.default_section:
         mapping = get_section_mapping("DEFAULT", options.config_file)
+    elif options.section:
+        mapping = get_section_mapping(options.section, options.config_file)
     else:
         mapping = get_counterpart_mapping(options.config_file)
     if options.list_all:
