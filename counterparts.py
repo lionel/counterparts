@@ -384,11 +384,14 @@ def main(argv=sys.argv):
 
 
 if __name__ == "__main__":
+
     try:
         logging.config.fileConfig(os.path.join(os.getenv('HOME'),
                                                config_file_basename))
         logger = logging.getLogger()
     except config_parser.NoSectionError:
+        pass
+    except FileNotFoundError:
         pass
     rc = main()
     sys.exit(rc)
