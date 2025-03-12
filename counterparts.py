@@ -6,7 +6,7 @@
 
     Lookup a counterpart string/file based on some name/path mapping.
 
-    :copyright: (c) 2015 by Lionel D. Hummel
+    :copyright: (c) 2015, 2025 by Lionel D. Hummel
     :license: GPLv2; see LICENSE.txt for more details.
 
     For more info:  http://github.com/lionel/counterparts
@@ -27,7 +27,7 @@ else:
     import ConfigParser as config_parser
     ConfigParser = config_parser.SafeConfigParser
 
-__version__ = "0.1"
+__version__ = "0.2"
 
 config_file_basename = ".counterc"
 
