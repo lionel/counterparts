@@ -411,6 +411,7 @@ def main(argv=sys.argv):
     if options.list_sections:
         print(mapping.list_sections().keys())
         return 0
+    logger.debug("Mapping: %s", mapping)
     rc_so_far = 0
     for p in _generate_input(options):
         try:
