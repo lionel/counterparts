@@ -275,6 +275,20 @@ def no_counterpart_found(string, options, rc_so_far):
     return options.else_errno
 
 
+def get_config(config_file=None, skip_home=False):
+
+    file_skip_list = ([ConfigFromFile.home_rc_file_path]
+                      if skip_home else [])
+    config = ConfigFromFile(config_file, [], skip_file_read=file_skip_list)
+    return config
+
+
+def get_section_mapping(section, config_file=None, skip_home=False):
+
+    config = get_config(config_file, skip_home)
+    return SectionMapping(section, map_config=config._parser)
+
+
 def get_counterpart_mapping(config_file=None, skip_home=False):
     """Initial part of a two-step lookup: First load the mapping
     (CounterpartMapping) with this function.  The mapping can then be
@@ -288,9 +302,7 @@ def get_counterpart_mapping(config_file=None, skip_home=False):
     :return: CounterpartMapping loaded from config_file et al.
 
     """
-    file_skip_list = ([ConfigFromFile.home_rc_file_path]
-                      if skip_home else [])
-    config = ConfigFromFile(config_file, [], skip_file_read=file_skip_list)
+    config = get_config(config_file, skip_home)
     return CounterpartMapping(map_config=config._parser)
 
 
