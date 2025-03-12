@@ -43,12 +43,30 @@ class FileNotFound(IOError):
     pass
 
 
+def print_named_section(s, pairs):
+
+    print("%s:" % (s))
+    for k,v in pairs:
+        print("\t%s:%s" % (k, v))
+
+
+def print_sections(sections):
+
+    if type(sections) is dict:
+        for s in sections:
+            print_named_section(s, sections[s])
+    else:
+        for k,v in sections:
+            print("\t%s: %s" % (k, v))
+
+
 class ConfigMapping:
 
     def list_sections(self, sections=None):
 
         kv_pairs = {}
-        default_section_keys = dict(self._map_config.items("DEFAULT"))
+        default_section_dict = dict(self._map_config.items("DEFAULT"))
+        kv_pairs["DEFAULT"] = default_section_dict.items()
         available_sections = self._map_config.sections()
         display_sections = sections or self._map_config.sections()
         for s in display_sections:
@@ -56,10 +74,10 @@ class ConfigMapping:
                 logger.debug("No section: %s", s)
                 continue
             try:
-                kv_pairs[s] = self._map_config.items(s)
-                for k in kv_pairs[s]:
-                    if k in default_section_keys:
-                        del kv_pairs[s][k]
+                kv_pairs[s] = []
+                for kv in self._map_config.items(s):
+                    if kv[0] not in default_section_dict:
+                        kv_pairs[s].append(kv)
             except config_parser.InterpolationMissingOptionError:
                 logger.error("InterpolationMissingOptionError on %s", s)
         return kv_pairs
@@ -364,8 +382,14 @@ def main(argv=sys.argv):
                         metavar="INPUT_FILE",
                         help=("Take input strings from the given file " +
                               "or '-' for STDIN."))
+    parser.add_argument("-l", "--list", action="store_true",
+                        help="Display mappings.")
+    parser.add_argument("-L", "--list-all", action="store_true",
+                        help="Display all config mappings.")
     parser.add_argument("-n", "--no-newline", action="store_true",
                         help="Print output without a trailing newline.")
+    parser.add_argument("-S", "--list-sections", action="store_true",
+                        help="List all of the sections in this configuration.")
     parser.add_argument("-V", "--version", action="version",
                         version="counterpart: Version %s" % (__version__),
                         help="Report version info and exit.")
@@ -373,6 +397,15 @@ def main(argv=sys.argv):
     ConfigFromFile.register_options(parser)
     options = parser.parse_args()
     mapping = get_counterpart_mapping(options.config_file)
+    if options.list_all:
+        print_sections(mapping.list_sections())
+        return 0
+    if options.list:
+        print_sections(mapping.list())
+        return 0
+    if options.list_sections:
+        print(mapping.list_sections().keys())
+        return 0
     rc_so_far = 0
     for p in _generate_input(options):
         try:
