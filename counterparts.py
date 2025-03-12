@@ -43,7 +43,55 @@ class FileNotFound(IOError):
     pass
 
 
-class CounterpartMapping:
+class ConfigMapping:
+
+    def list_sections(self, sections=None):
+
+        kv_pairs = {}
+        default_section_keys = dict(self._map_config.items("DEFAULT"))
+        available_sections = self._map_config.sections()
+        display_sections = sections or self._map_config.sections()
+        for s in display_sections:
+            if s not in available_sections:
+                logger.debug("No section: %s", s)
+                continue
+            try:
+                kv_pairs[s] = self._map_config.items(s)
+                for k in kv_pairs[s]:
+                    if k in default_section_keys:
+                        del kv_pairs[s][k]
+            except config_parser.InterpolationMissingOptionError:
+                logger.error("InterpolationMissingOptionError on %s", s)
+        return kv_pairs
+
+
+class SectionMapping(ConfigMapping):
+
+    def __init__(self, section, map_config):
+
+        logger.debug("NEW: SectionMapping w/%s", map_config)
+        self._map_config = map_config
+        self._section = section
+
+    def list(self):
+
+        kv_pairs = self._map_config.items(self._section)
+        return kv_pairs
+
+    def __getitem__(self, key):
+        """
+        """
+
+        try:
+            value = self._map_config.get(self._section, key)
+            logger.debug("Result for %s: %s", key, value)
+        except (config_parser.NoSectionError, config_parser.NoOptionError):
+            raise KeyError("Not not found in %s section: " % (self._section) +
+                               "%s" % (key))
+        return value
+
+
+class CounterpartMapping(ConfigMapping):
     """This class carries the pieces needed to perform mappings.
 
     Sections represent groups that enable this mapping to apply
@@ -61,6 +109,11 @@ class CounterpartMapping:
 
         logger.debug("NEW: CounterpartMapping w/%s", map_config)
         self._map_config = map_config
+
+    def list(self):
+
+        kv_pairs = self.list_sections(["COUNTERPART_DIR", "COUNTERPART_MAP", "INCLUDE"])
+        return kv_pairs
 
     def __getitem__(self, known):
         """If the counterpart is named explicitly in COUNTERPART_MAP, return
