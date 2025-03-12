@@ -145,7 +145,10 @@ class CounterpartMapping(ConfigMapping):
 class ConfigFromFile:
 
     rc_file_basename = config_file_basename
-    shared_environ = {'home': os.environ["HOME"]}
+    shared_environ = {
+        'home': os.environ["HOME"],
+        'hostname': os.uname().nodename
+    }
 
     def __init__(self, config_file=None,
                  add_rc_files=[], skip_file_read=[]):

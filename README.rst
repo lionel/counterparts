@@ -138,6 +138,8 @@ sections' right-hand-side values::
   %(home)s equals $HOME
   $
 
+Besides ``home``, the other pre-populated default is ``hostname``.
+
 Finally, ``counterparts`` also supports an ``INCLUDE`` directive.  It
 is specified as a section by that same name, and it accepts a
 ``paths`` option, which is a newline-separated list of one or more
