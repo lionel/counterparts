@@ -375,6 +375,8 @@ def main(argv=sys.argv):
                               "\"error\" prints a message to stderr.  " +
                               "\"exception\" raises a KeyError.  " +
                               "The default is \"%(default)s\"."))
+    parser.add_argument("-d", "--default-section", action="store_true",
+                        help=("Limit search to the default section."))
     parser.add_argument("-e", "--else-errno", type=int, default=1,
                         help=("Return code when no mapping is found " +
                               "(default is 1; 0 == no error)"))
@@ -396,7 +398,10 @@ def main(argv=sys.argv):
     parser.add_argument("strings", nargs="*")
     ConfigFromFile.register_options(parser)
     options = parser.parse_args()
-    mapping = get_counterpart_mapping(options.config_file)
+    if options.default_section:
+        mapping = get_section_mapping("DEFAULT", options.config_file)
+    else:
+        mapping = get_counterpart_mapping(options.config_file)
     if options.list_all:
         print_sections(mapping.list_sections())
         return 0
